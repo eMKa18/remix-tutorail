@@ -16,7 +16,11 @@ export default function Contact() {
     return (
         <div id="contact">
             <div>
-                <img src={contact.avatar} alt={`${contact.first} ${contact.last} avatar`} key={contact.avatar} />
+                <img 
+                    src={contact.avatar} 
+                    alt={`${contact.first} ${contact.last} avatar`} 
+                    key={contact.avatar} crossOrigin="anonymous"
+                />
             </div>
 
             <div>
