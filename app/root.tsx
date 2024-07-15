@@ -6,6 +6,13 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
+import { LinksFunction } from "@remix-run/node";
+import appStylesHref from "./app.css?url";
+
+export const links: LinksFunction = () => [
+  {rel: "stylesheet", href: appStylesHref},
+];
+
 export default function App() {
   return (
     <html lang="en">
@@ -13,6 +20,7 @@ export default function App() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
+        {/* Links renders above links const, every route (tsx file) can export links and this will be linked here */}
         <Links />
       </head>
       <body>
