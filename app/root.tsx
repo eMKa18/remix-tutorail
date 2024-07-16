@@ -39,6 +39,7 @@ export default function App() {
   // keeping the query in state
   const [query, setQuery] = useState(q || "");
   const submit = useSubmit();
+  const searching = navigation.location && new URLSearchParams(navigation.location.search).has("q");
 
   // still need useEffect to to sync query to the component when going back/forward in browser
   useEffect(() => {
@@ -67,6 +68,7 @@ export default function App() {
               <input
                 id="q"
                 aria-label="Search contacts"
+                className={searching ? "loading" : ""}
                 placeholder="Search"
                 type="search"
                 name="q"
@@ -75,7 +77,11 @@ export default function App() {
                 }
                 value={query}
               />
-              <div id="search-spinner" aria-hidden hidden={true} />
+              <div 
+                id="search-spinner" 
+                aria-hidden 
+                hidden={!searching} 
+              />
             </Form>
             <Form method="post">
               <button type="submit">New</button>
@@ -117,7 +123,7 @@ export default function App() {
           </nav>
         </div>
         <div 
-          className={navigation.state === "loading" ? "loading" : ""}
+          className={navigation.state === "loading" && !searching ? "loading" : ""}
           id="detail">
           <Outlet />
         </div>
