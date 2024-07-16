@@ -14,7 +14,7 @@ import { json, LinksFunction, LoaderFunctionArgs, redirect } from "@remix-run/no
 import appStylesHref from "./app.css?url";
 
 import { createEmptyContact, getContacts } from "./data";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const action = async () => {
   const contact = await createEmptyContact();
@@ -35,11 +35,12 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 export default function App() {
   const {contacts, q} = useLoaderData<typeof loader>();
   const navigation = useNavigation();
+  // keeping the query in state
+  const [query, setQuery] = useState(q || "");
+
+  // still need useEffect to to sync query to the component when going back/forward in browser
   useEffect(() => {
-    const searchField = document.getElementById("q");
-    if(searchField instanceof HTMLInputElement) {
-      searchField.value = q || "";
-    }
+    setQuery(q || "");
   }, [q]);
 
   return (
@@ -62,7 +63,10 @@ export default function App() {
                 placeholder="Search"
                 type="search"
                 name="q"
-                defaultValue={q || ""}
+                onChange={(event) => 
+                  setQuery(event.currentTarget.value)
+                }
+                value={query}
               />
               <div id="search-spinner" aria-hidden hidden={true} />
             </Form>
