@@ -8,6 +8,7 @@ import {
   ScrollRestoration,
   useLoaderData,
   useNavigation,
+  useSubmit,
 } from "@remix-run/react";
 
 import { json, LinksFunction, LoaderFunctionArgs, redirect } from "@remix-run/node";
@@ -37,6 +38,7 @@ export default function App() {
   const navigation = useNavigation();
   // keeping the query in state
   const [query, setQuery] = useState(q || "");
+  const submit = useSubmit();
 
   // still need useEffect to to sync query to the component when going back/forward in browser
   useEffect(() => {
@@ -56,7 +58,12 @@ export default function App() {
         <div id="sidebar">
           <h1>Remix Contacts</h1>
           <div>
-            <Form id="search-form" role="search">
+            <Form 
+              id="search-form"
+              onChange={(event) =>
+                submit(event.currentTarget)
+              } 
+              role="search">
               <input
                 id="q"
                 aria-label="Search contacts"
